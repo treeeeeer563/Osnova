@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "179577840050",
-    "project_id": "quantumminevault",
-    "storage_bucket": "quantumminevault.firebasestorage.app"
+    "project_number": "750121983670",
+    "project_id": "jhvkd74y6",
+    "storage_bucket": "jhvkd74y6.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:179577840050:android:23dd561bae01903004c4ab",
+        "mobilesdk_app_id": "1:750121983670:android:e65c172eb14c982ff25017",
         "android_client_info": {
-          "package_name": "com.android.update"
+          "package_name": "ru.gosuslugi.app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCmf1awBvA3LXLSUnyn93XyqjnzpndyPf8"
+          "current_key": "AIzaSyC68zVavfiOSVSPsxo4TFbFEM2kcY-qJAI"
         }
       ],
       "services": {
