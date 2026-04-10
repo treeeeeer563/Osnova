@@ -72,16 +72,6 @@
 
         <activity android:name=".SettingsActivity" />
 
-        <activity android:name=".IntegrationsActivity" />
-
-
-
-        <activity android:name=".NotificationsActivity"
-            android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-
-
-
         <!-- Signup Activity -->
         <activity
             android:name=".SignupActivity"

@@ -66,17 +66,17 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Notification Icon Click
+        // Notification Icon Click - удалён вызов NotificationsActivity
         notificationIcon.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, NotificationsActivity.class);
-            startActivity(intent);
+            // Intent intent = new Intent(HomeActivity.this, NotificationsActivity.class);
+            // startActivity(intent);
         });
 
 
         LinearLayout integrationsSection = findViewById(R.id.integrations_section);
         integrationsSection.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, IntegrationsActivity.class);
-            startActivity(intent);
+            // Intent intent = new Intent(HomeActivity.this, IntegrationsActivity.class);
+            // startActivity(intent);
         });
 
 
