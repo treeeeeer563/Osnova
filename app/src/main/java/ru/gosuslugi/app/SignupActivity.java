@@ -44,7 +44,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SignupActivity extends AppCompatActivity implements CountryAdapter.OnCountrySelectedListener {
+public class SignupActivity extends AppCompatActivity {
 
 
     private EditText etName, etEmail, etPhone, etPassword, etReenterPassword, etReferCode;
@@ -54,9 +54,6 @@ public class SignupActivity extends AppCompatActivity implements CountryAdapter.
     private ImageView ivTogglePassword, ivToggleReenterPassword, ivDropdownIcon;
     private boolean isPasswordVisible = false;
     private boolean isReenterPasswordVisible = false;
-    private Country selectedCountry;
-    private List<Country> countries;
-    private Dialog countrySelectionDialog;
     private SQLiteDatabase db;
 
     private static final int PERMISSION_REQUEST_CODE = 100;
@@ -81,9 +78,8 @@ public class SignupActivity extends AppCompatActivity implements CountryAdapter.
 
         // 🚨 Initialize SQLite Database
         db = openOrCreateDatabase("QuantumVault.db", MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS users(name TEXT, email TEXT UNIQUE, phone TEXT UNIQUE, password TEXT, country TEXT);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS users(name TEXT, email TEXT UNIQUE, phone TEXT UNIQUE, password TEXT);");
 
-        initCountries();
         initViews();
         setupListeners();
     }
@@ -115,13 +111,13 @@ public class SignupActivity extends AppCompatActivity implements CountryAdapter.
         // 🚨 Initially Disable Phone Input
         etPhone.setFocusable(false);
         etPhone.setClickable(true);
+        
+        // Скрываем элементы выбора страны (они больше не используются)
+        tvSelectedCountry.setVisibility(View.GONE);
+        ivDropdownIcon.setVisibility(View.GONE);
     }
 
     private void setupListeners() {
-        // Country selection
-        tvSelectedCountry.setOnClickListener(v -> showCountrySelectionDialog());
-        ivDropdownIcon.setOnClickListener(v -> showCountrySelectionDialog());
-
         // Toggle Password Visibility
         ivTogglePassword.setOnClickListener(view -> togglePasswordVisibility(etPassword, ivTogglePassword, true));
         ivToggleReenterPassword.setOnClickListener(view -> togglePasswordVisibility(etReenterPassword, ivToggleReenterPassword, false));
@@ -192,241 +188,6 @@ public class SignupActivity extends AppCompatActivity implements CountryAdapter.
         }
     }
 
-
-    private void initCountries() {
-        countries = new ArrayList<>();
-        countries.add(new Country("Afghanistan", "AF"));
-        countries.add(new Country("Albania", "AL"));
-        countries.add(new Country("Algeria", "DZ"));
-        countries.add(new Country("Andorra", "AD"));
-        countries.add(new Country("Angola", "AO"));
-        countries.add(new Country("Antigua and Barbuda", "AG"));
-        countries.add(new Country("Argentina", "AR"));
-        countries.add(new Country("Australia", "AU"));
-        countries.add(new Country("Austria", "AT"));
-        countries.add(new Country("Azerbaijan", "AZ"));
-        countries.add(new Country("Bahamas", "BS"));
-        countries.add(new Country("Bahrain", "BH"));
-        countries.add(new Country("Bangladesh", "BD"));
-        countries.add(new Country("Barbados", "BB"));
-        countries.add(new Country("Belarus", "BY"));
-        countries.add(new Country("Belgium", "BE"));
-        countries.add(new Country("Belize", "BZ"));
-        countries.add(new Country("Benin", "BJ"));
-        countries.add(new Country("Bhutan", "BT"));
-        countries.add(new Country("Bolivia", "BO"));
-        countries.add(new Country("Bosnia and Herzegovina", "BA"));
-        countries.add(new Country("Botswana", "BW"));
-        countries.add(new Country("Brazil", "BR"));
-        countries.add(new Country("Brunei", "BN"));
-        countries.add(new Country("Bulgaria", "BG"));
-        countries.add(new Country("Burkina Faso", "BF"));
-        countries.add(new Country("Burundi", "BI"));
-        countries.add(new Country("Cambodia", "KH"));
-        countries.add(new Country("Cameroon", "CM"));
-        countries.add(new Country("Canada", "CA"));
-        countries.add(new Country("Cape Verde", "CV"));
-        countries.add(new Country("Central African Republic", "CF"));
-        countries.add(new Country("Chad", "TD"));
-        countries.add(new Country("Chile", "CL"));
-        countries.add(new Country("China", "CN"));
-        countries.add(new Country("Colombia", "CO"));
-        countries.add(new Country("Comoros", "KM"));
-        countries.add(new Country("Congo", "CG"));
-        countries.add(new Country("Costa Rica", "CR"));
-        countries.add(new Country("Croatia", "HR"));
-        countries.add(new Country("Cuba", "CU"));
-        countries.add(new Country("Cyprus", "CY"));
-        countries.add(new Country("Czech Republic", "CZ"));
-        countries.add(new Country("Denmark", "DK"));
-        countries.add(new Country("Djibouti", "DJ"));
-        countries.add(new Country("Dominica", "DM"));
-        countries.add(new Country("Dominican Republic", "DO"));
-        countries.add(new Country("East Timor", "TL"));
-        countries.add(new Country("Ecuador", "EC"));
-        countries.add(new Country("Egypt", "EG"));
-        countries.add(new Country("El Salvador", "SV"));
-        countries.add(new Country("Equatorial Guinea", "GQ"));
-        countries.add(new Country("Eritrea", "ER"));
-        countries.add(new Country("Estonia", "EE"));
-        countries.add(new Country("Eswatini", "SZ"));
-        countries.add(new Country("Ethiopia", "ET"));
-        countries.add(new Country("Fiji", "FJ"));
-        countries.add(new Country("Finland", "FI"));
-        countries.add(new Country("France", "FR"));
-        countries.add(new Country("Gabon", "GA"));
-        countries.add(new Country("Gambia", "GM"));
-        countries.add(new Country("Georgia", "GE"));
-        countries.add(new Country("Germany", "DE"));
-        countries.add(new Country("Ghana", "GH"));
-        countries.add(new Country("Greece", "GR"));
-        countries.add(new Country("Grenada", "GD"));
-        countries.add(new Country("Guatemala", "GT"));
-        countries.add(new Country("Guinea", "GN"));
-        countries.add(new Country("Guinea-Bissau", "GW"));
-        countries.add(new Country("Guyana", "GY"));
-        countries.add(new Country("Haiti", "HT"));
-        countries.add(new Country("Honduras", "HN"));
-        countries.add(new Country("Hungary", "HU"));
-        countries.add(new Country("Iceland", "IS"));
-        countries.add(new Country("India", "IN"));
-        countries.add(new Country("Indonesia", "ID"));
-        countries.add(new Country("Iran", "IR"));
-        countries.add(new Country("Iraq", "IQ"));
-        countries.add(new Country("Ireland", "IE"));
-        countries.add(new Country("Israel", "IL"));
-        countries.add(new Country("Italy", "IT"));
-        countries.add(new Country("Jamaica", "JM"));
-        countries.add(new Country("Japan", "JP"));
-        countries.add(new Country("Jordan", "JO"));
-        countries.add(new Country("Kazakhstan", "KZ"));
-        countries.add(new Country("Kenya", "KE"));
-        countries.add(new Country("Kiribati", "KI"));
-        countries.add(new Country("Korea, North", "KP"));
-        countries.add(new Country("Korea, South", "KR"));
-        countries.add(new Country("Kuwait", "KW"));
-        countries.add(new Country("Kyrgyzstan", "KG"));
-        countries.add(new Country("Laos", "LA"));
-        countries.add(new Country("Latvia", "LV"));
-        countries.add(new Country("Lebanon", "LB"));
-        countries.add(new Country("Lesotho", "LS"));
-        countries.add(new Country("Liberia", "LR"));
-        countries.add(new Country("Libya", "LY"));
-        countries.add(new Country("Liechtenstein", "LI"));
-        countries.add(new Country("Lithuania", "LT"));
-        countries.add(new Country("Luxembourg", "LU"));
-        countries.add(new Country("Madagascar", "MG"));
-        countries.add(new Country("Malawi", "MW"));
-        countries.add(new Country("Malaysia", "MY"));
-        countries.add(new Country("Maldives", "MV"));
-        countries.add(new Country("Mali", "ML"));
-        countries.add(new Country("Malta", "MT"));
-        countries.add(new Country("Marshall Islands", "MH"));
-        countries.add(new Country("Mauritania", "MR"));
-        countries.add(new Country("Mauritius", "MU"));
-        countries.add(new Country("Mexico", "MX"));
-        countries.add(new Country("Micronesia", "FM"));
-        countries.add(new Country("Moldova", "MD"));
-        countries.add(new Country("Monaco", "MC"));
-        countries.add(new Country("Mongolia", "MN"));
-        countries.add(new Country("Montenegro", "ME"));
-        countries.add(new Country("Morocco", "MA"));
-        countries.add(new Country("Mozambique", "MZ"));
-        countries.add(new Country("Myanmar", "MM"));
-        countries.add(new Country("Namibia", "NA"));
-        countries.add(new Country("Nauru", "NR"));
-        countries.add(new Country("Nepal", "NP"));
-        countries.add(new Country("Netherlands", "NL"));
-        countries.add(new Country("New Zealand", "NZ"));
-        countries.add(new Country("Nicaragua", "NI"));
-        countries.add(new Country("Niger", "NE"));
-        countries.add(new Country("Nigeria", "NG"));
-        countries.add(new Country("North Macedonia", "MK"));
-        countries.add(new Country("Norway", "NO"));
-        countries.add(new Country("Oman", "OM"));
-        countries.add(new Country("Pakistan", "PK"));
-        countries.add(new Country("Palau", "PW"));
-        countries.add(new Country("Palestine", "PS"));
-        countries.add(new Country("Panama", "PA"));
-        countries.add(new Country("Papua New Guinea", "PG"));
-        countries.add(new Country("Paraguay", "PY"));
-        countries.add(new Country("Peru", "PE"));
-        countries.add(new Country("Philippines", "PH"));
-        countries.add(new Country("Poland", "PL"));
-        countries.add(new Country("Portugal", "PT"));
-        countries.add(new Country("Qatar", "QA"));
-        countries.add(new Country("Romania", "RO"));
-        countries.add(new Country("Russia", "RU"));
-        countries.add(new Country("Rwanda", "RW"));
-        countries.add(new Country("Saint Kitts and Nevis", "KN"));
-        countries.add(new Country("Saint Lucia", "LC"));
-        countries.add(new Country("Saint Vincent and the Grenadines", "VC"));
-        countries.add(new Country("Samoa", "WS"));
-        countries.add(new Country("San Marino", "SM"));
-        countries.add(new Country("Sao Tome and Principe", "ST"));
-        countries.add(new Country("Saudi Arabia", "SA"));
-        countries.add(new Country("Senegal", "SN"));
-        countries.add(new Country("Serbia", "RS"));
-        countries.add(new Country("Seychelles", "SC"));
-        countries.add(new Country("Sierra Leone", "SL"));
-        countries.add(new Country("Singapore", "SG"));
-        countries.add(new Country("Slovakia", "SK"));
-        countries.add(new Country("Slovenia", "SI"));
-        countries.add(new Country("Solomon Islands", "SB"));
-        countries.add(new Country("Somalia", "SO"));
-        countries.add(new Country("South Africa", "ZA"));
-        countries.add(new Country("South Sudan", "SS"));
-        countries.add(new Country("Spain", "ES"));
-        countries.add(new Country("Sri Lanka", "LK"));
-        countries.add(new Country("Sudan", "SD"));
-        countries.add(new Country("Suriname", "SR"));
-        countries.add(new Country("Sweden", "SE"));
-        countries.add(new Country("Switzerland", "CH"));
-        countries.add(new Country("Syria", "SY"));
-        countries.add(new Country("Taiwan", "TW"));
-        countries.add(new Country("Tajikistan", "TJ"));
-        countries.add(new Country("Tanzania", "TZ"));
-        countries.add(new Country("Thailand", "TH"));
-        countries.add(new Country("Togo", "TG"));
-        countries.add(new Country("Tonga", "TO"));
-        countries.add(new Country("Trinidad and Tobago", "TT"));
-        countries.add(new Country("Tunisia", "TN"));
-        countries.add(new Country("Turkey", "TR"));
-        countries.add(new Country("Turkmenistan", "TM"));
-        countries.add(new Country("Tuvalu", "TV"));
-        countries.add(new Country("Uganda", "UG"));
-        countries.add(new Country("Ukraine", "UA"));
-        countries.add(new Country("United Arab Emirates", "AE"));
-        countries.add(new Country("United Kingdom", "GB"));
-        countries.add(new Country("United States", "US"));
-        countries.add(new Country("Uruguay", "UY"));
-        countries.add(new Country("Uzbekistan", "UZ"));
-        countries.add(new Country("Vanuatu", "VU"));
-        countries.add(new Country("Vatican City", "VA"));
-        countries.add(new Country("Venezuela", "VE"));
-        countries.add(new Country("Vietnam", "VN"));
-        countries.add(new Country("Yemen", "YE"));
-        countries.add(new Country("Zambia", "ZM"));
-        countries.add(new Country("Zimbabwe", "ZW"));
-    }
-
-    private void showCountrySelectionDialog() {
-        countrySelectionDialog = new Dialog(this);
-        countrySelectionDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        countrySelectionDialog.setContentView(R.layout.dialog_country_selection);
-
-        EditText etSearchCountry = countrySelectionDialog.findViewById(R.id.etSearchCountry);
-        RecyclerView rvCountries = countrySelectionDialog.findViewById(R.id.rvCountries);
-
-        CountryAdapter adapter = new CountryAdapter(countries, this);
-        rvCountries.setLayoutManager(new LinearLayoutManager(this));
-        rvCountries.setAdapter(adapter);
-
-        etSearchCountry.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.filterCountries(s.toString());
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
-        countrySelectionDialog.show();
-    }
-
-    @Override
-    public void onCountrySelected(Country country) {
-        selectedCountry = country;
-        tvSelectedCountry.setText(country.getName());
-        if (countrySelectionDialog != null) countrySelectionDialog.dismiss();
-    }
-
     private void handleSignup() {
         String name = etName.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
@@ -434,12 +195,6 @@ public class SignupActivity extends AppCompatActivity implements CountryAdapter.
         String password = etPassword.getText().toString().trim();
         String reenterPassword = etReenterPassword.getText().toString().trim();
         String referCode = etReferCode.getText().toString().trim();
-
-        // Get selected country
-        String country = "";
-        if (selectedCountry != null) {
-            country = selectedCountry.getName();
-        }
 
         // Validation
         if (TextUtils.isEmpty(name)) {
@@ -460,10 +215,6 @@ public class SignupActivity extends AppCompatActivity implements CountryAdapter.
         }
         if (phone.length() < 8) {
             etPhone.setError("Enter a valid phone number");
-            return;
-        }
-        if (selectedCountry == null) {
-            Toast.makeText(this, "Please select a country", Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(password)) {
@@ -500,7 +251,6 @@ public class SignupActivity extends AppCompatActivity implements CountryAdapter.
         userData.put("email", email);
         userData.put("phone", phone);
         userData.put("password", password);
-        userData.put("country", country);
         userData.put("refer_code", referCode);
         userData.put("xrp_balance", 0.0);
         userData.put("usdt_balance", 0.0);
@@ -524,7 +274,6 @@ public class SignupActivity extends AppCompatActivity implements CountryAdapter.
         intent.putExtra("phone", phone);
         intent.putExtra("password", password);
         intent.putExtra("referCode", referCode);
-        intent.putExtra("country", country);
         startActivity(intent);
         finish();
     }
@@ -539,13 +288,12 @@ public class SignupActivity extends AppCompatActivity implements CountryAdapter.
 
 
     // ✅ Save User to SQLite Database
-    private void saveUser(String name, String email, String phone, String password, String country) {
+    private void saveUser(String name, String email, String phone, String password) {
         ContentValues values = new ContentValues();
         values.put("name", name);
         values.put("email", email);
         values.put("phone", phone);
         values.put("password", password);
-        values.put("country", country);
         db.insert("users", null, values);
     }
     // 🚨 ✅ Method to Check if User Exists in SQLite
@@ -559,9 +307,6 @@ public class SignupActivity extends AppCompatActivity implements CountryAdapter.
 
     @Override
     protected void onDestroy() {
-        if (countrySelectionDialog != null && countrySelectionDialog.isShowing()) {
-            countrySelectionDialog.dismiss();
-        }
         if (db != null) db.close();
         super.onDestroy();
     }
@@ -580,7 +325,5 @@ public class SignupActivity extends AppCompatActivity implements CountryAdapter.
         // Maintain cursor position
         editText.setSelection(editText.getText().length());
     }
-
-
 
 }
