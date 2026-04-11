@@ -1,0 +1,47 @@
+name: Тестирование трояна на Android 15
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Run Android Emulator and Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_8
+          emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect
+          script: |
+            adb wait-for-device
+            adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
+            adb install app-debug.apk
+            PACKAGE=$(aapt dump badging app-debug.apk | grep package | cut -d"'" -f2)
+            adb shell am start -n $PACKAGE/.MainActivity
+            sleep 5
+            adb emu sms send +79001234567 "Код подтверждения: 123456"
+            sleep 5
+            echo "=== Логи приложения ==="
+            adb logcat -d | grep -E "KEYLOG|UPLOAD|SMS|Trojan"
+            adb exec-out screencap -p > screenshot.png
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            screenshot.png
