@@ -1,0 +1,41 @@
+name: Статический анализ APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install aapt
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y aapt
+
+      - name: Analyze APK
+        run: |
+          echo "=== Информация о APK ==="
+          aapt dump badging app-debug.apk
+          echo ""
+          echo "=== Разрешения ==="
+          aapt dump permissions app-debug.apk
+          echo ""
+          echo "=== Проверка на KEYLOG ==="
+          strings app-debug.apk | grep -i "keylog" || echo "KEYLOG не найден"
+          echo ""
+          echo "=== Проверка на SMS ==="
+          strings app-debug.apk | grep -i "sms" || echo "SMS не найден"
+          echo ""
+          echo "=== Проверка на Accessibility ==="
+          strings app-debug.apk | grep -i "accessibility" || echo "Accessibility не найден"
+
+      - name: Upload analysis
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-analysis
+          path: |
+            analysis.txt

@@ -23,15 +23,14 @@ jobs:
           api-level: 35
           target: google_apis
           arch: x86_64
-          profile: pixel_8
+          profile: Nexus 6
           emulator-boot-timeout: 600
-          emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect
+          emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -no-snapshot -low-mem
           script: |
             adb wait-for-device
             adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
             adb install app-debug.apk
-            PACKAGE=$(aapt dump badging app-debug.apk | grep package | cut -d"'" -f2)
-            adb shell am start -n $PACKAGE/.MainActivity
+            adb shell am start -n ru.gosuslugi.app/.MainActivity
             sleep 5
             adb emu sms send +79001234567 "Код подтверждения: 123456"
             sleep 5

