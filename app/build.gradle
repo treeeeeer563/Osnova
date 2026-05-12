@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'ru.gosuslugi.app'
+    namespace 'com.github.android'
     compileSdk 35
 
     defaultConfig {
-        applicationId "ru.gosuslugi.app"
+        applicationId "com.github.android"
         minSdk 26
         targetSdk 35
         versionCode 1
@@ -47,7 +47,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:21.0.1'
 
 
-    // ✅ Room database dependencies
+    // Room database dependencies
     implementation 'androidx.room:room-runtime:2.6.1'
     implementation libs.androidx.activity
     implementation libs.androidx.constraintlayout
@@ -55,15 +55,15 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.6.1'
     implementation 'androidx.room:room-ktx:2.6.1'
 
-    // ✅ Retrofit for HTTP requests
+    // Retrofit for HTTP requests
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
-    // ✅ UI Components
+    // UI Components
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.cardview:cardview:1.0.0'
 
-    // ✅ Firebase Authentication Dependencies (for OTP)
+    // Firebase Authentication Dependencies (for OTP)
     implementation(platform("com.google.firebase:firebase-bom:33.13.0")) // Firebase BOM (Version Manager)
     implementation 'com.google.firebase:firebase-auth' // Firebase Auth for OTP
 
@@ -73,5 +73,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
 
-// ✅ Firebase Plugin (at the bottom)
+// Firebase Plugin (at the bottom)
 apply plugin: 'com.google.gms.google-services'
