@@ -5,14 +5,14 @@
 
     <application
         android:allowBackup="true"
-        android:label="GitHub Android"
+        android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">
 
         <activity
-            android:name="com.github.android.MainActivity"
+            android:name="ru.gosuslugi.app.MainActivity"
             android:exported="true"
-            android:label="GitHub Android">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
